@@ -11,15 +11,12 @@ usecase
 Singleton fits the need when app's need to read app's configuration in different processes. **LoadAPIAppConfig** is the function that always load the same app config for **subscription's backend**. But be careful, it's not singleton. Why?
 
 ```golang
-var config *APIAppConfig
 func LoadAPIAppConfig() (*APIAppConfig, *datadog.EnvConfig, error) {
 	// Structure of specfile
-	if config == nil {
-		specFileConfig := new(apiSpecFileConfig)
-		dataDogConfig := new(datadog.EnvConfig)
-		if err := loadConfig(specFileConfig, dataDogConfig); err != nil {
-			return nil, nil, err
-		}
+	specFileConfig := new(apiSpecFileConfig)
+	dataDogConfig := new(datadog.EnvConfig)
+	if err := loadConfig(specFileConfig, dataDogConfig); err != nil {
+		return nil, nil, err
 	}
 	return config, dataDogConfig, nil
 }
@@ -91,9 +88,6 @@ func NewAPIService(
 
 ## facade
 facade let client interacts with dozens of components with an interface. It's similar to orchestration.
-
-https://github.com/deliveryhero/pd-subscription/blob/master/app/infrastructure/statsd/statsd.go#L101
-
 https://github.com/kubernetes/kubernetes/blob/f6e163fe27f2d698af5309aa946515ee62d98e40/pkg/kubelet/pod/pod_manager.go#L102
 
 https://refactoring.guru/design-patterns/facade
